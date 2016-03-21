@@ -65,9 +65,19 @@ action :create do
     
     link "#{node['nginx']['dir']}/sites-enabled/default" do
       to "#{node['nginx']['dir']}/sites-available/default"
+      notifies :reload, 'service[nginx]'
     end
   else
-    log 'Default site would not be setup'
+    if ::File.symlink?("#{node['nginx']['dir']}/sites-enabled/default")
+      link "#{node['nginx']['dir']}/sites-enabled/default" do
+        action :delete
+        notifies :reload, 'service[nginx]'
+      end
+      cookbook_file "#{node['nginx']['dir']}/html/default/index.html" do
+        action  :delete
+        notifies :reload, 'service[nginx]'
+      end 
+    end
   end
   
   nginx_conf_flags = node['nginx']['default_configure_flags'] + additional_flags
