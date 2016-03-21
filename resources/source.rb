@@ -98,7 +98,7 @@ action :create do
       node.run_state['installed_version'] == version &&
       node.run_state['compiled_flags'].sort == nginx_conf_flags.sort
     end
-    notifies :reload, 'service[nginx]'
+    notifies :restart, 'service[nginx]'
   end
 
   template "/etc/init/nginx.conf" do

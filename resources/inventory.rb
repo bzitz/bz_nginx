@@ -1,7 +1,7 @@
 action :collect do
   nginx_args = []
   #configured_args = Mixlib::ShellOut.new(".#{node['nginx']['sbin-path']} -V")
-  nginx_cflags = Mixlib::ShellOut.new("./nginx -V", :cwd => '/usr/local/nginx-1.8.0/sbin')
+  nginx_cflags = Mixlib::ShellOut.new("./nginx -V", :cwd => '/usr/local/nginx/sbin')
   nginx_cflags.run_command
 
   nginx_cflags.stderr.each_line do |line|

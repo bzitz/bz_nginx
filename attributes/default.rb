@@ -1,7 +1,7 @@
 default['nginx']['source_version'] = '1.8.0'
 default['nginx']['checksum']       = '23cca1239990c818d8f6da118320c4979aadf5386deda691b1b7c2c96b9df3d5'
 
-default['nginx']['dir']            = "/usr/local/nginx-#{node['nginx']['source_version']}"
+default['nginx']['dir']            = "/usr/local/nginx"
 default['nginx']['pid-path']       = "#{node['nginx']['dir']}/logs/nginx.pid"
 default['nginx']['sbin-path']      = "#{node['nginx']['dir']}/sbin/nginx"
 default['nginx']['conf-path']      = "#{node['nginx']['dir']}/conf/nginx.conf"
