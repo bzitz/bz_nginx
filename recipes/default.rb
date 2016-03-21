@@ -6,7 +6,7 @@
 #
 
 
-nginx_source "test dir" do
+bz_nginx_source "test dir" do
   action :create
   default_site true
   additional_flags ['--with-http_stub_status_module', '--with-pcre']

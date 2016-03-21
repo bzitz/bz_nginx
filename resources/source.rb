@@ -4,7 +4,9 @@ property :checksum, default: node['nginx']['checksum']
 property :default_site, default: node['nginx']['default_site']
 property :cookbook, default: "nginx"
 property :additional_flags, default: []
-property :ngx_init_conf, default: "nginx"
+property :ngx_init_conf, default: "bz_nginx"
+property :ngx_conf_cookbook, default: "bz_nginx"
+property :mime_type_cookbook, default: "bz_nginx"
 
 action :create do
   service 'nginx' do
@@ -33,12 +35,23 @@ action :create do
     package name
   end
 
-  nginx_dir_setup "Common Directories" do
+  bz_nginx_dir_setup "Common Directories" do
     action :create
   end
 
-  nginx_conf "Nginx Configuration files setup" do
+#  template "#{node['nginx']['conf-path']}" do 
+#    cookbook ngx_conf_cookbook
+#    source "nginx.conf.erb"
+#  end
+#  template "#{node['nginx']['dir']}/conf/mime.types" do
+#    cookbook  mime_type_cookbook
+#    source "mime.types.erb"
+#  end
+
+  bz_nginx_conf "Nginx Configuration files setup" do
     action :create
+    ngx_conf_cookbook  ngx_conf_cookbook
+    mime_type_cookbook  mime_type_cookbook
     notifies :reload, 'service[nginx]'
   end
 
@@ -63,7 +76,7 @@ action :create do
   nginx_conf_flags = node['nginx']['default_configure_flags'] + additional_flags
 
   if ::File.exist?("#{node['nginx']['dir']}/sbin/nginx")
-    nginx_inventory "Gather Info" do
+    bz_nginx_inventory "Gather Info" do
       action :collect
     end
   else

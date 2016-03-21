@@ -11,5 +11,5 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[nginx::default]
+      - recipe[bz_nginx::default]
     attributes:
