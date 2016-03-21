@@ -7,6 +7,9 @@ property :additional_flags, default: []
 property :ngx_init_conf, default: "bz_nginx"
 property :ngx_conf_cookbook, default: "bz_nginx"
 property :mime_type_cookbook, default: "bz_nginx"
+property :fastcgi_conf_cookbook, default: "bz_nginx"
+property :scgi_params_cookbook, default: "bz_nginx"
+property :uwsgi_params_cookbook, default: "bz_nginx"
 
 action :create do
   service 'nginx' do
@@ -39,19 +42,13 @@ action :create do
     action :create
   end
 
-#  template "#{node['nginx']['conf-path']}" do 
-#    cookbook ngx_conf_cookbook
-#    source "nginx.conf.erb"
-#  end
-#  template "#{node['nginx']['dir']}/conf/mime.types" do
-#    cookbook  mime_type_cookbook
-#    source "mime.types.erb"
-#  end
-
   bz_nginx_conf "Nginx Configuration files setup" do
     action :create
     ngx_conf_cookbook  ngx_conf_cookbook
     mime_type_cookbook  mime_type_cookbook
+    fastcgi_conf_cookbook  fastcgi_conf_cookbook
+    scgi_params_cookbook  scgi_params_cookbook
+    uwsgi_params_cookbook  uwsgi_params_cookbook
     notifies :reload, 'service[nginx]'
   end
 
